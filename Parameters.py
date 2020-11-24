@@ -26,3 +26,15 @@ class Parameters(tk.Frame):
         ttk.Button(self, text="Gazo sklende",
                    command=lambda: controller.show_gauge(Gauge.Gauge, 'THROTTLE_POS')
         ).grid(row=4, column=1, padx=10, pady=10)
+
+        ttk.Button(self, text="Kuras",
+                   command=lambda: controller.show_gauge(Gauge.Gauge, 'FUEL_PRESSURE')
+        ).grid(row=5, column=1, padx=10, pady=10)
+
+        ttk.Button(self, text="Oras",
+                   command=lambda: controller.show_gauge(Gauge.Gauge, 'MAF')
+        ).grid(row=6, column=1, padx=10, pady=10)
+
+        ttk.Button(self, text="Isiurbemo oro temperatura",
+                   command=lambda: controller.show_gauge(Gauge.Gauge, 'INTAKE_TEMP')
+        ).grid(row=7, column=1, padx=10, pady=10)
