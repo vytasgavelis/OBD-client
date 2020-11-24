@@ -10,6 +10,6 @@ class Settings(tk.Frame):
         label = ttk.Label(self, text="Nustatymai", font=LARGEFONT)
         label.grid(row=0, column=4, padx=10, pady=10)
 
-        button2 = ttk.Button(self, text="Startpage",
+        button2 = ttk.Button(self, text="Pradinis",
                              command=lambda: controller.show_frame(StartPage.StartPage))
         button2.grid(row=2, column=1, padx=10, pady=10)

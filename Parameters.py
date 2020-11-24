@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 import StartPage
+import Gauge
 
 LARGEFONT = ("Verdana", 35)
 
@@ -10,6 +11,18 @@ class Parameters(tk.Frame):
         label = ttk.Label(self, text="Parametrai", font=LARGEFONT)
         label.grid(row=0, column=4, padx=10, pady=10)
 
-        button1 = ttk.Button(self, text="StartPage",
+        button1 = ttk.Button(self, text="Pradinis",
                              command=lambda: controller.show_frame(StartPage.StartPage))
         button1.grid(row=1, column=1, padx=10, pady=10)
+
+        ttk.Button(self, text="Apsukos",
+                   command=lambda: controller.show_gauge(Gauge.Gauge, 'RPM')
+        ).grid(row=2, column=1, padx=10, pady=10)
+
+        ttk.Button(self, text="Dabartinis greitis",
+                   command=lambda: controller.show_gauge(Gauge.Gauge, 'SPEED')
+        ).grid(row=3, column=1, padx=10, pady=10)
+
+        ttk.Button(self, text="Gazo sklende",
+                   command=lambda: controller.show_gauge(Gauge.Gauge, 'THROTTLE_POS')
+        ).grid(row=4, column=1, padx=10, pady=10)

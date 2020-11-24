@@ -1,18 +1,12 @@
 import obd
 from obd import OBDStatus
 import tkinter as tk
-from tkinter import ttk
 from StartPage import StartPage
 from Parameters import Parameters
 from Profile import Profile
 from Settings import Settings
 from Tests import Tests
-
-# cmd = obd.commands.SPEED
-#
-# while True:
-#     response = connection.query(cmd)
-#     print(response.value)
+from Gauge import Gauge
 
 LARGEFONT = ("Verdana", 35)
 
@@ -33,25 +27,28 @@ class Application(tk.Tk):
 
         self.frames = {}
 
-        for F in (StartPage, Parameters, Tests, Profile, Settings):
+        for F in (StartPage, Parameters, Tests, Profile, Settings, Gauge):
             frame = F(container, self)
-
-            # initializing frame of that object from
-            # startpage, page1, page2 respectively with
-            # for loop
             self.frames[F] = frame
-
             frame.grid(row=0, column=0, sticky="nsew")
 
         self.show_frame(StartPage)
 
     def connect(self):
-        self.connection = obd.OBD('/dev/ttys002')
+        self.connection = obd.Async('/dev/ttys002')
         return self.connection.status() == OBDStatus.CAR_CONNECTED
 
     def show_frame(self, cont):
         frame = self.frames[cont]
         frame.tkraise()
 
-app = Application()
-app.mainloop()
+    def show_gauge(self, cont, parameter):
+        frame = self.frames[cont]
+        frame.set_parameter(parameter)
+        frame.set_connection(self.connection)
+        frame.tkraise()
+        frame.start()
+
+if __name__ == "__main__":
+    app = Application()
+    app.mainloop()
