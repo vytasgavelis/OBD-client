@@ -44,10 +44,8 @@ class Application(tk.Tk):
 
     def show_gauge(self, cont, parameter):
         frame = self.frames[cont]
-        frame.set_parameter(parameter)
-        frame.set_connection(self.connection)
         frame.tkraise()
-        frame.start()
+        frame.start(self.connection, parameter)
 
 if __name__ == "__main__":
     app = Application()
