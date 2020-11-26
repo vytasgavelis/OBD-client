@@ -7,6 +7,7 @@ from Profile import Profile
 from Settings import Settings
 from Tests import Tests
 from Gauge import Gauge
+from Graph import Graph
 
 LARGEFONT = ("Verdana", 35)
 
@@ -17,7 +18,7 @@ class Application(tk.Tk):
         self.connection = None
 
         self.title("OBD diagnostika")
-        self.geometry("720x480")
+        self.geometry("800x500")
 
         container = tk.Frame(self)
         container.pack(side="top", fill="both", expand=True)
@@ -27,7 +28,7 @@ class Application(tk.Tk):
 
         self.frames = {}
 
-        for F in (StartPage, Parameters, Tests, Profile, Settings, Gauge):
+        for F in (StartPage, Parameters, Tests, Profile, Settings, Gauge, Graph):
             frame = F(container, self)
             self.frames[F] = frame
             frame.grid(row=0, column=0, sticky="nsew")
@@ -42,7 +43,7 @@ class Application(tk.Tk):
         frame = self.frames[cont]
         frame.tkraise()
 
-    def show_gauge(self, cont, parameter):
+    def show_parameter(self, cont, parameter):
         frame = self.frames[cont]
         frame.tkraise()
         frame.start(self.connection, parameter)
