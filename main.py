@@ -9,6 +9,7 @@ from Tests import Tests
 from Gauge import Gauge
 from Graph import Graph
 from Login import Login
+from SpeedTest import SpeedTest
 
 LARGEFONT = ("Verdana", 35)
 
@@ -32,7 +33,7 @@ class Application(tk.Tk):
 
         self.frames = {}
 
-        for F in (StartPage, Parameters, Tests, Profile, Settings, Gauge, Graph, Login):
+        for F in (StartPage, Parameters, Tests, Profile, Settings, Gauge, Graph, Login, SpeedTest):
             frame = F(container, self)
             self.frames[F] = frame
             frame.grid(row=0, column=0, sticky="nsew")
