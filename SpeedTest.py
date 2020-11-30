@@ -15,7 +15,7 @@ class SpeedTest(tk.Frame):
         self.start_time = 0
         self.elapsed_time = tk.StringVar(value=0)
         self.speed = tk.StringVar(value=0)
-        self.target_speed = 100
+        self.target_speed = 60
         self.test_text = tk.StringVar(value='Pradeti')
 
         label = ttk.Label(self, text="Greicio testas", font=LARGEFONT)
@@ -25,28 +25,40 @@ class SpeedTest(tk.Frame):
         button2.grid(row=2, column=1, padx=10, pady=10)
 
         ttk.Button(self, textvariable=self.test_text,
-                   command=lambda: self.start_test()).grid(row=3, column=1)
+                   command=lambda: self.on_test_button_click()).grid(row=3, column=1)
 
         ttk.Label(self, textvariable=self.elapsed_time).grid(row=4, column=1, padx=10, pady=10)
         ttk.Label(self, textvariable=self.speed).grid(row=5, column=1, padx=10, pady=10)
 
     def show_parameter(self, response):
-        self.elapsed_time.set(time.time() - self.start_time)
-        self.speed.set(float(format(float(str(response.value).split()[0]), '.2f')))
+        if self.started:
+            self.elapsed_time.set(time.time() - self.start_time)
+            speed = float(format(float(str(response.value).split()[0]), '.2f'))
+            self.speed.set(speed)
+            if speed >= self.target_speed:
+                self.started = False
+                self.test_text.set('Pradeti')
+
+    def on_test_button_click(self):
+        if not self.started:
+            self.start_test()
+        else:
+            self.stop_test()
 
     def start_test(self):
-        if not self.started:
-            self.started = True
-            self.test_text.set('Restartuoti')
-            self.start_time = time.time()
-            self.connection.start()
-        else:
-            self.started = False
-            self.test_text.set('Pradeti')
-            self.start_time = 0
-            self.elapsed_time.set(0)
-            self.connection.stop()
+        self.start_time = 0
+        self.elapsed_time.set(0)
+        self.speed.set(0)
+        self.started = True
+        self.test_text.set('Restartuoti')
+        self.start_time = time.time()
 
+    def stop_test(self):
+        self.started = False
+        self.test_text.set('Pradeti')
+        self.start_time = 0
+        self.elapsed_time.set(0)
+        self.speed.set(0)
 
     def start(self, connection, parameter):
         command = None
@@ -65,6 +77,7 @@ class SpeedTest(tk.Frame):
 
         self.connection = connection
         self.connection.watch(command, callback=self.show_parameter)
+        self.connection.start()
 
     def go_to_tests_frame(self, controller):
         self.start_time = 0
