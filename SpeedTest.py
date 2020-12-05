@@ -4,6 +4,7 @@ import Tests
 import time
 import obd
 import json
+import requests
 
 LARGEFONT = ("Verdana", 35)
 
@@ -11,6 +12,7 @@ class SpeedTest(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
 
+        self.controller = controller
         self.started = False
         self.connection = False
         self.start_time = 0
@@ -111,6 +113,14 @@ class SpeedTest(tk.Frame):
                 'maf_data': self.maf_data,
                 'intake_data': self.intake_data
             })
+            r = requests.post(
+                'http://localhost:8080/OBD-server/api.php?action=upload_speed_test',
+                {
+                    'user_id': self.controller.user_id,
+                    'speed_test_data': data
+                }
+            ).json()
+
 
     def go_to_tests_frame(self, controller):
         self.start_time = 0

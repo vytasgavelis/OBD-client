@@ -41,7 +41,7 @@ class Login(tk.Frame):
                 }
             ).json()
             if r['success']:
-                self.controller.login(email)
+                self.controller.login(email, r['user_id'])
                 self.controller.show_frame(StartPage.StartPage)
             else:
                 self.errors.set('Neteisingi prisijungimo duomenys.')

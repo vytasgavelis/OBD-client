@@ -20,6 +20,7 @@ class Application(tk.Tk):
         tk.Tk.__init__(self, *args, **kwargs)
 
         self.connection = None
+        self.user_id = None
         self.logged_in = tk.BooleanVar(value=False)
         self.username = tk.StringVar(value='')
         self.login_text = tk.StringVar(value='Prisijungti')
@@ -68,14 +69,16 @@ class Application(tk.Tk):
             frame = self.frames[cont]
             frame.tkraise()
 
-    def login(self, username):
+    def login(self, username, user_id):
         self.logged_in.set(True)
         self.username.set(username)
+        self.user_id = user_id
         self.login_text.set('Atsijungti')
 
     def logout(self):
         self.logged_in.set(False)
         self.username.set('')
+        self.user_id = None
         self.login_text.set('Prisijungti')
 
     def is_logged_in(self):
