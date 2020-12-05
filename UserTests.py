@@ -3,6 +3,7 @@ from tkinter import ttk
 import StartPage
 from TestModel import TestModel
 import TestsComparison
+import requests
 
 LARGEFONT = ("Verdana", 35)
 
@@ -43,6 +44,8 @@ class UserTests(tk.Frame):
 
     def get_user_tests(self, user_id):
         # TODO fetch tests from server
+        r = requests.get('http://localhost:8080/OBD-server/api.php?action=get_tests')
+
         speed_data = range(1, 100, 10)
         maf_data = [50, 60, 70, 30, 30, 70, 70, 80, 120, 130]
         intake_data = [20, 20, 30, 30, 40, 50, 60, 90, 100, 100]
