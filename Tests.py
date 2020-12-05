@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 import StartPage
 import SpeedTest
+import UserTests
 
 LARGEFONT = ("Verdana", 35)
 
@@ -18,3 +19,7 @@ class Tests(tk.Frame):
         button2 = ttk.Button(self, text="Testas 0-60 km/h",
                              command=lambda: controller.show_parameter(SpeedTest.SpeedTest, 'SPEED'))
         button2.grid(row=3, column=1, padx=10, pady=10)
+
+        button2 = ttk.Button(self, text="Jusu testai",
+                             command=lambda: controller.show_frame(UserTests.UserTests))
+        button2.grid(row=4, column=1, padx=10, pady=10)

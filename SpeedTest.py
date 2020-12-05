@@ -3,6 +3,7 @@ from tkinter import ttk
 import Tests
 import time
 import obd
+import json
 
 LARGEFONT = ("Verdana", 35)
 
@@ -15,7 +16,11 @@ class SpeedTest(tk.Frame):
         self.start_time = 0
         self.elapsed_time = tk.StringVar(value=0)
         self.speed = tk.StringVar(value=0)
-        self.target_speed = 60
+        self.maf_data = []
+        self.speed_data = []
+        self.intake_data = []
+
+        self.target_speed = 100
         self.test_text = tk.StringVar(value='Pradeti')
 
         label = ttk.Label(self, text="Greicio testas", font=LARGEFONT)
@@ -27,6 +32,9 @@ class SpeedTest(tk.Frame):
         ttk.Button(self, textvariable=self.test_text,
                    command=lambda: self.on_test_button_click()).grid(row=3, column=1)
 
+        ttk.Button(self, text='Issaugoti',
+                   command=lambda: self.on_save_button_click()).grid(row=3, column=2)
+
         ttk.Label(self, textvariable=self.elapsed_time).grid(row=4, column=1, padx=10, pady=10)
         ttk.Label(self, textvariable=self.speed).grid(row=5, column=1, padx=10, pady=10)
 
@@ -35,9 +43,18 @@ class SpeedTest(tk.Frame):
             self.elapsed_time.set(time.time() - self.start_time)
             speed = float(format(float(str(response.value).split()[0]), '.2f'))
             self.speed.set(speed)
+            self.speed_data.append(speed)
             if speed >= self.target_speed:
                 self.started = False
                 self.test_text.set('Pradeti')
+
+    def process_maf_data(self, response):
+        if self.started:
+            self.maf_data.append(float(format(float(str(response.value).split()[0]), '.2f')))
+
+    def process_intake_data(self, response):
+        if self.started:
+            self.intake_data.append(float(format(float(str(response.value).split()[0]), '.2f')))
 
     def on_test_button_click(self):
         if not self.started:
@@ -49,6 +66,9 @@ class SpeedTest(tk.Frame):
         self.start_time = 0
         self.elapsed_time.set(0)
         self.speed.set(0)
+        self.maf_data.clear()
+        self.speed_data.clear()
+        self.intake_data.clear()
         self.started = True
         self.test_text.set('Restartuoti')
         self.start_time = time.time()
@@ -77,7 +97,20 @@ class SpeedTest(tk.Frame):
 
         self.connection = connection
         self.connection.watch(command, callback=self.show_parameter)
+        self.connection.watch(obd.commands.MAF, callback=self.process_maf_data)
+        self.connection.watch(obd.commands.INTAKE_TEMP, callback=self.process_intake_data)
         self.connection.start()
+
+    def on_save_button_click(self):
+        if not self.started:
+            data = json.dumps({
+                'type': '0-100',
+                'target_speed': self.target_speed,
+                'time': self.elapsed_time.get(),
+                'speed_data': self.speed_data,
+                'maf_data': self.maf_data,
+                'intake_data': self.intake_data
+            })
 
     def go_to_tests_frame(self, controller):
         self.start_time = 0

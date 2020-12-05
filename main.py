@@ -10,6 +10,8 @@ from Gauge import Gauge
 from Graph import Graph
 from Login import Login
 from SpeedTest import SpeedTest
+from UserTests import UserTests
+from TestsComparison import TestsComparison
 
 LARGEFONT = ("Verdana", 35)
 
@@ -33,7 +35,7 @@ class Application(tk.Tk):
 
         self.frames = {}
 
-        for F in (StartPage, Parameters, Tests, Profile, Settings, Gauge, Graph, Login, SpeedTest):
+        for F in (StartPage, Parameters, Tests, Profile, Settings, Gauge, Graph, Login, SpeedTest, UserTests, TestsComparison):
             frame = F(container, self)
             self.frames[F] = frame
             frame.grid(row=0, column=0, sticky="nsew")
@@ -41,7 +43,7 @@ class Application(tk.Tk):
         self.show_frame(StartPage)
 
     def connect(self):
-        self.connection = obd.Async('/dev/ttys002')
+        self.connection = obd.Async('/dev/ttys001')
         return self.connection.status() == OBDStatus.CAR_CONNECTED
 
     def show_frame(self, cont):
@@ -52,6 +54,12 @@ class Application(tk.Tk):
         frame = self.frames[cont]
         frame.tkraise()
         frame.start(self.connection, parameter)
+
+    def show_tests_comparison(self, cont, test1, test2):
+        frame = self.frames[cont]
+        frame.tkraise()
+        frame.start(test1, test2)
+
 
     def show_login(self, cont):
         if self.is_logged_in():
