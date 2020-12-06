@@ -11,17 +11,17 @@ class TestsComparison(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
 
-    def start(self, user_test, other_user_test):
+    def start(self, current_user_test, other_user_test):
         figure = plt.Figure(figsize=(5, 4))
         ax = figure.add_subplot(111)
-        ax.plot(user_test.speed_data)
-        ax.plot(user_test.maf_data)
-        ax.plot(user_test.intake_data)
+        ax.plot(current_user_test.speed_data)
+        ax.plot(current_user_test.maf_data)
+        ax.plot(current_user_test.intake_data)
         ax.set_title('Jusu testas')
 
         canvas = FigureCanvasTkAgg(figure, self)
         canvas.get_tk_widget().grid(row=2, column=1)
-        ttk.Label(self, text='Jusu laikas: ' + str(user_test.time) + 's').grid(row=3, column=1)
+        ttk.Label(self, text='Jusu laikas: ' + str(current_user_test.time) + 's').grid(row=3, column=1)
 
         figure2 = plt.Figure(figsize=(5, 4))
         ax2 = figure2.add_subplot(111)

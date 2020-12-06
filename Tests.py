@@ -21,5 +21,5 @@ class Tests(tk.Frame):
         button2.grid(row=3, column=1, padx=10, pady=10)
 
         button2 = ttk.Button(self, text="Jusu testai",
-                             command=lambda: controller.show_frame(UserTests.UserTests))
+                             command=lambda: controller.show_user_tests(UserTests.UserTests))
         button2.grid(row=4, column=1, padx=10, pady=10)

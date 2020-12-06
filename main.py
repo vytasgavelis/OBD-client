@@ -61,6 +61,10 @@ class Application(tk.Tk):
         frame.tkraise()
         frame.start(test1, test2)
 
+    def show_user_tests(self, cont):
+        frame = self.frames[cont]
+        frame.tkraise()
+        frame.start(self.user_id)
 
     def show_login(self, cont):
         if self.is_logged_in():
