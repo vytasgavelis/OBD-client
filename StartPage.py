@@ -29,9 +29,10 @@ class StartPage(tk.Frame):
         label = ttk.Label(self, text="Startpage", font=LARGEFONT)
         label.grid(row=0, column=4, padx=10, pady=10)
 
-        parameters_button = ttk.Button(self, text="Parametrai",
+        self.parameters_button = ttk.Button(self, text="Parametrai",
                                        command=lambda: controller.show_frame(Parameters))
-        parameters_button.grid(row=1, column=1, padx=10, pady=10)
+        self.parameters_button.grid(row=1, column=1, padx=10, pady=10)
+        self.parameters_button['state'] = tk.DISABLED
 
         tests_button = ttk.Button(self, text="Testai",
                                   command=lambda: controller.show_frame(Tests))

@@ -45,7 +45,11 @@ class Application(tk.Tk):
 
     def connect(self):
         self.connection = obd.Async('/dev/ttys001')
-        return self.connection.status() == OBDStatus.CAR_CONNECTED
+        connected = self.connection.status() == OBDStatus.CAR_CONNECTED
+        if connected:
+            self.update_car_parameters_buttons_state(tk.NORMAL)
+
+        return connected
 
     def show_frame(self, cont):
         frame = self.frames[cont]
@@ -93,6 +97,12 @@ class Application(tk.Tk):
     def update_user_buttons_state(self, state):
         frame = self.frames[Tests]
         frame.user_tests_button['state'] = state
+
+    def update_car_parameters_buttons_state(self, state):
+        frame = self.frames[StartPage]
+        frame.parameters_button['state'] = state
+        frame = self.frames[Tests]
+        frame.speed_test1_button['state'] = state
 
 if __name__ == "__main__":
     app = Application()
