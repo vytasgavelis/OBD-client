@@ -78,15 +78,21 @@ class Application(tk.Tk):
         self.username.set(username)
         self.user_id = user_id
         self.login_text.set('Atsijungti')
+        self.update_user_buttons_state(tk.NORMAL)
 
     def logout(self):
         self.logged_in.set(False)
         self.username.set('')
         self.user_id = None
         self.login_text.set('Prisijungti')
+        self.update_user_buttons_state(tk.DISABLED)
 
     def is_logged_in(self):
         return self.logged_in.get()
+
+    def update_user_buttons_state(self, state):
+        frame = self.frames[Tests]
+        frame.user_tests_button['state'] = state
 
 if __name__ == "__main__":
     app = Application()

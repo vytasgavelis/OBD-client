@@ -1,7 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
-import StartPage
-from TestModel import TestModel
+import UserTests
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
@@ -10,6 +9,10 @@ LARGEFONT = ("Verdana", 35)
 class TestsComparison(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
+
+        button2 = ttk.Button(self, text="Grizti",
+                             command=lambda: controller.show_user_tests(UserTests.UserTests))
+        button2.grid(row=1, column=1, padx=10, pady=10)
 
     def start(self, current_user_test, other_user_test):
         figure = plt.Figure(figsize=(5, 4))

@@ -20,6 +20,7 @@ class Tests(tk.Frame):
                              command=lambda: controller.show_parameter(SpeedTest.SpeedTest, 'SPEED'))
         button2.grid(row=3, column=1, padx=10, pady=10)
 
-        button2 = ttk.Button(self, text="Jusu testai",
+        self.user_tests_button = ttk.Button(self, text="Jusu testai",
                              command=lambda: controller.show_user_tests(UserTests.UserTests))
-        button2.grid(row=4, column=1, padx=10, pady=10)
+        self.user_tests_button['state'] = tk.DISABLED
+        self.user_tests_button.grid(row=4, column=1, padx=10, pady=10)
