@@ -21,7 +21,7 @@ class Gauge(tk.Frame):
         self.rs.grid(row=0, column=0, padx=10, pady=10)
         self.rs.set_value(0)
 
-    def show_parameter(self, response):
+    def process_response(self, response):
         self.rs.set_value(float(format(float(str(response.value).split()[0]), '.2f')))
 
     def start(self, connection, parameter):
@@ -62,7 +62,7 @@ class Gauge(tk.Frame):
 
         self.draw_gauge(max_gauge_value, label, unit)
         self.connection = connection
-        connection.watch(command, callback=self.show_parameter)
+        connection.watch(command, callback=self.process_response)
         connection.start()
 
     def go_to_parameter_frame(self, controller):

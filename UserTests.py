@@ -27,7 +27,6 @@ class UserTests(tk.Frame):
         button2.grid(row=2, column=1, padx=10, pady=10)
 
     def get_user_tests(self, user_id):
-        # TODO fetch tests from server
         r = requests.get('http://localhost:8080/OBD-server/api.php?action=get_tests&user_id=' + str(user_id)).json()
         tests = []
 
@@ -46,8 +45,7 @@ class UserTests(tk.Frame):
 
         return tests
 
-    def get_other_user_tests(self):
-        # TODO fetch tests from server
+    def get_all_tests(self):
         r = requests.get('http://localhost:8080/OBD-server/api.php?action=get_tests').json()
         tests = []
 
@@ -69,7 +67,7 @@ class UserTests(tk.Frame):
     def start(self, user_id):
         current_user_tests = self.get_user_tests(user_id)
         self.current_user_tests = current_user_tests
-        other_user_tests = self.get_other_user_tests()
+        other_user_tests = self.get_all_tests()
         self.other_user_tests = other_user_tests
         self.draw_tests_boxes(current_user_tests, other_user_tests)
 

@@ -33,7 +33,7 @@ class Graph(tk.Frame):
         self.canvas.get_tk_widget().grid(row=3, column=1)
         ax.set_title(self.title + ' ' + self.unit)
 
-    def update_parameter(self, response):
+    def process_response(self, response):
         self.data.append(float(format(float(str(response.value).split()[0]), '.2f')))
         self.draw_graph()
 
@@ -76,7 +76,7 @@ class Graph(tk.Frame):
         self.connection = connection
         self.title = label
         self.unit = unit
-        self.connection.watch(command, callback=self.update_parameter)
+        self.connection.watch(command, callback=self.process_response)
         self.connection.start()
 
     def go_to_parameter_frame(self, controller):

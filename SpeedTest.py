@@ -40,7 +40,7 @@ class SpeedTest(tk.Frame):
         ttk.Label(self, textvariable=self.elapsed_time).grid(row=4, column=1, padx=10, pady=10)
         ttk.Label(self, textvariable=self.speed).grid(row=5, column=1, padx=10, pady=10)
 
-    def show_parameter(self, response):
+    def process_speed_response(self, response):
         if self.started:
             self.elapsed_time.set(time.time() - self.start_time)
             speed = float(format(float(str(response.value).split()[0]), '.2f'))
@@ -50,11 +50,11 @@ class SpeedTest(tk.Frame):
                 self.started = False
                 self.test_text.set('Pradeti')
 
-    def process_maf_data(self, response):
+    def process_maf_response(self, response):
         if self.started:
             self.maf_data.append(float(format(float(str(response.value).split()[0]), '.2f')))
 
-    def process_intake_data(self, response):
+    def process_intake_response(self, response):
         if self.started:
             self.intake_data.append(float(format(float(str(response.value).split()[0]), '.2f')))
 
@@ -98,9 +98,9 @@ class SpeedTest(tk.Frame):
             command = obd.commands.INTAKE_TEMP
 
         self.connection = connection
-        self.connection.watch(command, callback=self.show_parameter)
-        self.connection.watch(obd.commands.MAF, callback=self.process_maf_data)
-        self.connection.watch(obd.commands.INTAKE_TEMP, callback=self.process_intake_data)
+        self.connection.watch(command, callback=self.process_speed_response)
+        self.connection.watch(obd.commands.MAF, callback=self.process_maf_response)
+        self.connection.watch(obd.commands.INTAKE_TEMP, callback=self.process_intake_response)
         self.connection.start()
 
     def on_save_button_click(self):

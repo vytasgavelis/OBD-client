@@ -44,7 +44,7 @@ class Application(tk.Tk):
         self.show_frame(StartPage)
 
     def connect(self):
-        self.connection = obd.Async('/dev/ttys001')
+        self.connection = obd.Async('/dev/ttys002')
         connected = self.connection.status() == OBDStatus.CAR_CONNECTED
         if connected:
             self.update_car_parameters_buttons_state(tk.NORMAL)
