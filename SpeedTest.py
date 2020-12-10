@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
+from tkinter import messagebox
 import Tests
 import time
 import obd
@@ -34,9 +35,6 @@ class SpeedTest(tk.Frame):
         ttk.Button(self, textvariable=self.test_text,
                    command=lambda: self.on_test_button_click()).grid(row=3, column=1)
 
-        ttk.Button(self, text='Issaugoti',
-                   command=lambda: self.on_save_button_click()).grid(row=3, column=2)
-
         ttk.Label(self, textvariable=self.elapsed_time).grid(row=4, column=1, padx=10, pady=10)
         ttk.Label(self, textvariable=self.speed).grid(row=5, column=1, padx=10, pady=10)
 
@@ -49,6 +47,7 @@ class SpeedTest(tk.Frame):
             if speed >= self.target_speed:
                 self.started = False
                 self.test_text.set('Pradeti')
+                self.show_save_dialog()
 
     def process_maf_response(self, response):
         if self.started:
@@ -103,23 +102,30 @@ class SpeedTest(tk.Frame):
         self.connection.watch(obd.commands.INTAKE_TEMP, callback=self.process_intake_response)
         self.connection.start()
 
-    def on_save_button_click(self):
-        if not self.started:
-            data = json.dumps({
-                'type': '0-100',
-                'target_speed': self.target_speed,
-                'time': self.elapsed_time.get(),
-                'speed_data': self.speed_data,
-                'maf_data': self.maf_data,
-                'intake_data': self.intake_data
-            })
-            r = requests.post(
-                'http://localhost:8080/OBD-server/api.php?action=upload_speed_test',
-                {
-                    'user_id': self.controller.user_id,
-                    'speed_test_data': data
-                }
-            ).json()
+    def show_save_dialog(self):
+        if self.controller.is_logged_in():
+            should_save = messagebox.askyesno(title='Issaugoti', message='Ar norite issaugoti testa?', icon='question')
+            if should_save:
+                data = json.dumps({
+                    'type': '0-100',
+                    'target_speed': self.target_speed,
+                    'time': self.elapsed_time.get(),
+                    'speed_data': self.speed_data,
+                    'maf_data': self.maf_data,
+                    'intake_data': self.intake_data
+                })
+                r = requests.post(
+                    'http://localhost:8080/OBD-server/api.php?action=upload_speed_test',
+                    {
+                        'user_id': self.controller.user_id,
+                        'speed_test_data': data
+                    }
+                ).json()
+
+                if r['success']:
+                    messagebox._show('Issaugota', 'Testas sekmingai issaugotas.')
+                else:
+                    messagebox.showerror('Klaida', 'Nepavyko issaugoti testo.')
 
 
     def go_to_tests_frame(self, controller):
