@@ -42,9 +42,10 @@ class StartPage(tk.Frame):
                                     command=lambda: controller.show_frame(Profile))
         profile_button.grid(row=3, column=1, padx=10, pady=10)
 
-        settings_button = ttk.Button(self, text="Nustatymai",
-                                     command=lambda: controller.show_frame(Settings))
-        settings_button.grid(row=4, column=1, padx=10, pady=10)
+        self.settings_button = ttk.Button(self, text="Nustatymai",
+                                     command=lambda: controller.show_settings(Settings))
+        self.settings_button.grid(row=4, column=1, padx=10, pady=10)
+        self.settings_button['state'] = tk.DISABLED
 
         ttk.Label(self, textvariable=controller.username).grid(row=5, column=1, sticky=("we"))
         ttk.Button(self, textvariable=controller.login_text, command=lambda: controller.show_login(Login)).grid(row=5, column=2, sticky="w")

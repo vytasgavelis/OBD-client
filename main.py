@@ -77,6 +77,11 @@ class Application(tk.Tk):
             frame = self.frames[cont]
             frame.tkraise()
 
+    def show_settings(self, cont):
+        frame = self.frames[cont]
+        frame.tkraise()
+        frame.start(self.user_id)
+
     def login(self, username, user_id):
         self.logged_in.set(True)
         self.username.set(username)
@@ -97,6 +102,7 @@ class Application(tk.Tk):
     def update_user_buttons_state(self, state):
         frame = self.frames[Tests]
         frame.user_tests_button['state'] = state
+        self.frames[StartPage].settings_button['state'] = state
 
     def update_car_parameters_buttons_state(self, state):
         frame = self.frames[StartPage]
