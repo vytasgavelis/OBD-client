@@ -88,7 +88,8 @@ class UserTests(tk.Frame):
         for test in current_user_tests:
             user_tests_options.append('#' + str(test.test_id) + ' Laikas: ' + str(test.time) + 's')
         self.user_tests_box['values'] = user_tests_options
-        self.user_tests_box.set(user_tests_options[0])
+        if len(user_tests_options) > 0:
+            self.user_tests_box.set(user_tests_options[0])
         self.user_tests_box.state(["readonly"])
         self.user_tests_box.grid(row=3, column=1, padx=10, pady=10)
 
@@ -96,7 +97,8 @@ class UserTests(tk.Frame):
         for test in other_user_tests:
             other_user_tests_options.append('#' + str(test.test_id) + ' Laikas: ' + str(test.time) + 's')
         self.other_user_tests_box['values'] = other_user_tests_options
-        self.other_user_tests_box.set(other_user_tests_options[0])
+        if len(other_user_tests_options) > 0:
+            self.other_user_tests_box.set(other_user_tests_options[0])
         self.other_user_tests_box.state(["readonly"])
         self.other_user_tests_box.grid(row=3, column=3, padx=10, pady=10)
 

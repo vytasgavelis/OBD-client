@@ -5,6 +5,7 @@ from Profile import Profile
 from Settings import Settings
 from Tests import Tests
 from Login import Login
+from Register import Register
 
 LARGEFONT = ("Verdana", 35)
 
@@ -51,6 +52,10 @@ class StartPage(tk.Frame):
         ttk.Button(self, textvariable=controller.login_text, command=lambda: controller.show_login(Login)).grid(row=5, column=2, sticky="w")
         ttk.Label(self, textvariable=controller.logged_in).grid(row=5, column=3, sticky=("we"))
 
-        ttk.Label(self, text=self.car_brand).grid(row=6, column=1, sticky=("we"))
-        ttk.Button(self, text="Prisijungti", command=self.connect).grid(row=6, column=2, sticky="w")
-        ttk.Label(self, textvariable=self.connected).grid(row=6, column=3, sticky=("we"))
+        ttk.Button(self, text='Registruotis', command=lambda: controller.show_frame(Register)).grid(row=6,column=3)
+
+        ttk.Label(self, text=self.car_brand).grid(row=7, column=1, sticky=("we"))
+        ttk.Button(self, text="Prisijungti", command=self.connect).grid(row=7, column=2, sticky="w")
+        ttk.Label(self, textvariable=self.connected).grid(row=7, column=3, sticky=("we"))
+
+
