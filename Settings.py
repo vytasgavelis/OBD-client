@@ -4,6 +4,7 @@ import StartPage
 import requests
 import json
 from SettingModel import SettingModel
+from tkinter import messagebox
 
 LARGEFONT = ("Verdana", 35)
 
@@ -51,5 +52,8 @@ class Settings(tk.Frame):
                 'can_compare_tests': can_compare_tests
             }
         ).json()
+
+        if not r['success']:
+            messagebox.showerror('Klaida', 'Nepavyko issaugoti nustatymu.')
 
         self.controller.show_frame(StartPage.StartPage)
