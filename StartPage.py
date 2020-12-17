@@ -19,7 +19,7 @@ class StartPage(tk.Frame):
 
         self.user_name = tk.StringVar()
         self.user_name.set('Anon')
-        self.car_brand = 'Automobilis'
+        self.car_brand = tk.StringVar(value='Automobilis (neprisijungta)')
 
         self.build_layout(controller)
 
@@ -27,7 +27,7 @@ class StartPage(tk.Frame):
         self.connected.set(self.controller.connect())
 
     def build_layout(self, controller):
-        label = ttk.Label(self, text="Startpage", font=LARGEFONT)
+        label = ttk.Label(self, text="Pradinis", font=LARGEFONT)
         label.grid(row=0, column=4, padx=10, pady=10)
 
         self.parameters_button = ttk.Button(self, text="Parametrai",
@@ -39,9 +39,10 @@ class StartPage(tk.Frame):
                                   command=lambda: controller.show_frame(Tests))
         tests_button.grid(row=2, column=1, padx=10, pady=10)
 
-        profile_button = ttk.Button(self, text="Profilis",
+        self.profile_button = ttk.Button(self, text="Profilis",
                                     command=lambda: controller.show_frame(Profile))
-        profile_button.grid(row=3, column=1, padx=10, pady=10)
+        self.profile_button.grid(row=3, column=1, padx=10, pady=10)
+        self.profile_button['state'] = tk.DISABLED
 
         self.settings_button = ttk.Button(self, text="Nustatymai",
                                      command=lambda: controller.show_settings(Settings))
@@ -50,12 +51,10 @@ class StartPage(tk.Frame):
 
         ttk.Label(self, textvariable=controller.username).grid(row=5, column=1, sticky=("we"))
         ttk.Button(self, textvariable=controller.login_text, command=lambda: controller.show_login(Login)).grid(row=5, column=2, sticky="w")
-        ttk.Label(self, textvariable=controller.logged_in).grid(row=5, column=3, sticky=("we"))
 
-        ttk.Button(self, text='Registruotis', command=lambda: controller.show_frame(Register)).grid(row=6,column=3)
+        ttk.Button(self, text='Registruotis', command=lambda: controller.show_frame(Register)).grid(row=6,column=2)
 
-        ttk.Label(self, text=self.car_brand).grid(row=7, column=1, sticky=("we"))
+        ttk.Label(self, textvariable=self.car_brand).grid(row=7, column=1, sticky=("we"))
         ttk.Button(self, text="Prisijungti", command=self.connect).grid(row=7, column=2, sticky="w")
-        ttk.Label(self, textvariable=self.connected).grid(row=7, column=3, sticky=("we"))
 
 

@@ -86,7 +86,7 @@ class UserTests(tk.Frame):
     def draw_tests_boxes(self, current_user_tests, other_user_tests):
         user_tests_options = []
         for test in current_user_tests:
-            user_tests_options.append('#' + str(test.test_id) + ' Laikas: ' + str(test.time) + 's')
+            user_tests_options.append('#' + str(test.test_id) + ' Laikas: ' + format(float(test.time), '.2f') + 's')
         self.user_tests_box['values'] = user_tests_options
         if len(user_tests_options) > 0:
             self.user_tests_box.set(user_tests_options[0])
@@ -95,7 +95,7 @@ class UserTests(tk.Frame):
 
         other_user_tests_options = []
         for test in other_user_tests:
-            other_user_tests_options.append('#' + str(test.test_id) + ' Laikas: ' + str(test.time) + 's')
+            other_user_tests_options.append('#' + str(test.test_id) + ' Laikas: ' + format(float(test.time), '.2f') + 's')
         self.other_user_tests_box['values'] = other_user_tests_options
         if len(other_user_tests_options) > 0:
             self.other_user_tests_box.set(other_user_tests_options[0])

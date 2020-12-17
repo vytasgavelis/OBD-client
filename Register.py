@@ -15,6 +15,9 @@ class Register(tk.Frame):
         self.password = tk.StringVar()
         self.errors = tk.StringVar()
 
+        label = ttk.Label(self, text="Registracija", font=LARGEFONT)
+        label.grid(row=0, column=4, padx=10, pady=10)
+
         button1 = ttk.Button(self, text="Pradinis",
                              command=lambda: controller.show_frame(StartPage.StartPage))
         button1.grid(row=1, column=1, padx=10, pady=10)

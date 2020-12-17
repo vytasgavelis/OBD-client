@@ -13,6 +13,8 @@ from Register import Register
 from SpeedTest import SpeedTest
 from UserTests import UserTests
 from TestsComparison import TestsComparison
+from tkinter import messagebox
+
 
 LARGEFONT = ("Verdana", 35)
 
@@ -23,11 +25,11 @@ class Application(tk.Tk):
         self.connection = None
         self.user_id = None
         self.logged_in = tk.BooleanVar(value=False)
-        self.username = tk.StringVar(value='')
+        self.username = tk.StringVar(value='Vartotojas (neprisijungta)')
         self.login_text = tk.StringVar(value='Prisijungti')
 
-        self.title("OBD diagnostika")
-        self.geometry("800x500")
+        self.title("OBD")
+        self.geometry("1280x900")
 
         container = tk.Frame(self)
         container.pack(side="top", fill="both", expand=True)
@@ -45,10 +47,12 @@ class Application(tk.Tk):
         self.show_frame(StartPage)
 
     def connect(self):
-        self.connection = obd.Async('/dev/ttys001')
+        self.connection = obd.Async('/dev/ttys005')
         connected = self.connection.status() == OBDStatus.CAR_CONNECTED
         if connected:
             self.update_car_parameters_buttons_state(tk.NORMAL)
+        else:
+            messagebox.showerror('Klaida', 'Nepavyko prisijungti prie automobilio.')
 
         return connected
 
@@ -92,7 +96,7 @@ class Application(tk.Tk):
 
     def logout(self):
         self.logged_in.set(False)
-        self.username.set('')
+        self.username.set('Vartotojas (neprisijungta)')
         self.user_id = None
         self.login_text.set('Prisijungti')
         self.update_user_buttons_state(tk.DISABLED)
@@ -104,12 +108,19 @@ class Application(tk.Tk):
         frame = self.frames[Tests]
         frame.user_tests_button['state'] = state
         self.frames[StartPage].settings_button['state'] = state
+        self.frames[StartPage].profile_button['state'] = state
 
     def update_car_parameters_buttons_state(self, state):
         frame = self.frames[StartPage]
         frame.parameters_button['state'] = state
+        if state == tk.DISABLED:
+            frame.car_brand.set('Automobilis (neprisijungta)')
+        else:
+            frame.car_brand.set('Automobilis (prisijungta)')
+
         frame = self.frames[Tests]
         frame.speed_test1_button['state'] = state
+        frame.speed_test2_button['state'] = state
 
 if __name__ == "__main__":
     app = Application()

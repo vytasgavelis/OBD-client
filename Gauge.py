@@ -18,7 +18,7 @@ class Gauge(tk.Frame):
 
     def draw_gauge(self, max_value, label, unit):
         self.rs = tk_tools.Gauge(self, max_value=max_value, label=label, unit=unit)
-        self.rs.grid(row=0, column=0, padx=10, pady=10)
+        self.rs.grid(row=3, column=0, padx=10, pady=10)
         self.rs.set_value(0)
 
     def process_response(self, response):
