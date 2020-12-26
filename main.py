@@ -27,27 +27,28 @@ class Application(tk.Tk):
         self.logged_in = tk.BooleanVar(value=False)
         self.username = tk.StringVar(value='Vartotojas (neprisijungta)')
         self.login_text = tk.StringVar(value='Prisijungti')
+        self.current_frame = None
 
         self.title("OBD")
         self.geometry("1280x900")
 
         container = tk.Frame(self)
         container.pack(side="top", fill="both", expand=True)
-
-        container.rowconfigure(0, weight=1)
-        container.columnconfigure(0, weight=1)
+        container.configure(bg="#ECECEC")
 
         self.frames = {}
 
         for F in (StartPage, Parameters, Tests, Profile, Settings, Gauge, Graph, Login, SpeedTest, UserTests, TestsComparison, Register):
             frame = F(container, self)
             self.frames[F] = frame
-            frame.grid(row=0, column=0, sticky="nsew")
 
         self.show_frame(StartPage)
 
+        container.grid_rowconfigure(0, weight=1)
+        container.grid_columnconfigure(0, weight=1)
+
     def connect(self):
-        self.connection = obd.Async('/dev/ttys005')
+        self.connection = obd.Async('/dev/ttys003')
         connected = self.connection.status() == OBDStatus.CAR_CONNECTED
         if connected:
             self.update_car_parameters_buttons_state(tk.NORMAL)
@@ -57,17 +58,22 @@ class Application(tk.Tk):
         return connected
 
     def show_frame(self, cont):
+        if self.current_frame is not None:
+            self.current_frame.grid_remove()
+
         frame = self.frames[cont]
+        self.current_frame = frame
+        frame.grid(row=0, column=0, sticky="")
         frame.tkraise()
 
     def show_parameter(self, cont, parameter):
         frame = self.frames[cont]
-        frame.tkraise()
+        self.show_frame(cont)
         frame.start(self.connection, parameter)
 
     def show_tests_comparison(self, cont, test1, test2):
         frame = self.frames[cont]
-        frame.tkraise()
+        self.show_frame(cont)
         frame.start(test1, test2)
 
     def show_user_tests(self, cont):
@@ -79,8 +85,7 @@ class Application(tk.Tk):
         if self.is_logged_in():
             self.logout()
         else:
-            frame = self.frames[cont]
-            frame.tkraise()
+            self.show_frame(cont)
 
     def show_settings(self, cont):
         frame = self.frames[cont]

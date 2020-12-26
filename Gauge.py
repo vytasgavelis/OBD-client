@@ -5,6 +5,7 @@ import Parameters
 import tk_tools
 
 LARGEFONT = ("Verdana", 35)
+MEDIUMFONT = ("Verdana", 25)
 
 class Gauge(tk.Frame):
     def __init__(self, parent, controller):
@@ -12,13 +13,17 @@ class Gauge(tk.Frame):
 
         self.connection = None
 
+        self.configure(bg="#ECECEC")
+        label = ttk.Label(self, text="OBD performance", font=LARGEFONT)
+        label.grid(row=0, column=0)
+
         button2 = ttk.Button(self, text="Parametrai",
                              command=lambda: self.go_to_parameter_frame(controller))
-        button2.grid(row=2, column=1, padx=10, pady=10)
+        button2.grid(row=1, column=0, pady=10)
 
     def draw_gauge(self, max_value, label, unit):
-        self.rs = tk_tools.Gauge(self, max_value=max_value, label=label, unit=unit)
-        self.rs.grid(row=3, column=0, padx=10, pady=10)
+        self.rs = tk_tools.Gauge(self, max_value=max_value, label=label, unit=unit, width=400, height=300, bg="#ECECEC")
+        self.rs.grid(row=2, column=0)
         self.rs.set_value(0)
 
     def process_response(self, response):
