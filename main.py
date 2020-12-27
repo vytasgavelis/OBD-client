@@ -29,7 +29,7 @@ class Application(tk.Tk):
         self.login_text = tk.StringVar(value='Prisijungti')
         self.current_frame = None
 
-        self.title("OBD")
+        self.title("OBD performance")
         self.geometry("1280x900")
 
         container = tk.Frame(self)

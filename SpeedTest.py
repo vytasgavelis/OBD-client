@@ -16,9 +16,13 @@ class SpeedTest(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
 
+        self.configure(bg="#ECECEC")
+
         self.controller = controller
         self.started = False
         self.connection = False
+        self.elapsed_time_label = tk.StringVar(value="Laikas: 0s")
+        self.speed_label = tk.StringVar(value="Greitis: 0 km/h")
         self.start_time = 0
         self.elapsed_time = tk.StringVar(value=0)
         self.speed = tk.StringVar(value=0)
@@ -26,28 +30,29 @@ class SpeedTest(tk.Frame):
         self.speed_data = []
         self.intake_data = []
 
-        self.target_speed = 100
+        self.target_speed = 200
         self.test_text = tk.StringVar(value='Pradeti')
 
-        label = ttk.Label(self, text="Greicio testas", font=LARGEFONT)
-        label.grid(row=0, column=4, padx=10, pady=10)
-        button2 = ttk.Button(self, text="Testai",
+        self.test_image = tk.PhotoImage(file='assets/test.png')
+        tk.Label(self, image=self.test_image).grid(row=1, column=2)
+
+        button2 = ttk.Button(self, text="Atgal",
                              command=lambda: self.go_to_tests_frame(controller))
-        button2.grid(row=2, column=1, padx=10, pady=10)
+        button2.grid(row=2, column=2, padx=10, pady=10)
 
         ttk.Button(self, textvariable=self.test_text,
-                   command=lambda: self.on_test_button_click()).grid(row=3, column=1)
+                   command=lambda: self.on_test_button_click()).grid(row=3, column=2)
 
-        ttk.Label(self, text='Laikas: ').grid(row=4, column=1)
-        ttk.Label(self, textvariable=self.elapsed_time).grid(row=4, column=2, padx=10, pady=10)
-        ttk.Label(self, text='Greitis: ').grid(row=5, column=1)
-        ttk.Label(self, textvariable=self.speed).grid(row=5, column=2, padx=10, pady=10)
+        ttk.Label(self, textvariable=self.elapsed_time_label).grid(row=4, column=2)
+        ttk.Label(self, textvariable=self.speed_label).grid(row=5, column=2)
 
     def process_speed_response(self, response):
         if self.started:
             self.elapsed_time.set(format(time.time() - self.start_time, '.2f'))
+            self.elapsed_time_label.set('Laikas: ' + format(time.time() - self.start_time, '.2f') + 's')
             speed = float(format(float(str(response.value).split()[0]), '.2f'))
             self.speed.set(speed)
+            self.speed_label.set('Greitis: ' + str(speed) + 'km/h')
             self.speed_data.append(speed)
             if speed >= self.target_speed:
                 self.started = False
@@ -78,7 +83,7 @@ class SpeedTest(tk.Frame):
         self.speed_data.clear()
         self.intake_data.clear()
         self.started = True
-        self.test_text.set('Restartuoti')
+        self.test_text.set('Stabdyti')
         self.start_time = time.time()
 
     def stop_test(self):
@@ -116,6 +121,7 @@ class SpeedTest(tk.Frame):
         except AttributeError:
             pass
         figure = plt.Figure(figsize=(5, 4))
+        figure.patch.set_facecolor('#ECECEC')
         ax = figure.add_subplot(111)
         ax.plot(self.speed_data, label='Greitis(km/h)')
         ax.plot(self.maf_data, label='Oro srautas(kg/s)')
@@ -124,8 +130,7 @@ class SpeedTest(tk.Frame):
         ax.legend(title='Parametrai:', loc='upper left', fontsize='x-small')
 
         self.canvas = FigureCanvasTkAgg(figure, self)
-        self.canvas.get_tk_widget().grid(row=6, column=1)
-        ax.set_title('Testas')
+        self.canvas.get_tk_widget().grid(row=6, column=2)
 
     def show_save_dialog(self):
         if self.controller.is_logged_in():

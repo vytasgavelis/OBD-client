@@ -6,6 +6,8 @@ from Settings import Settings
 from Tests import Tests
 from Login import Login
 from Register import Register
+from PIL import Image
+from PIL import ImageTk
 
 LARGEFONT = ("Verdana", 35)
 MEDIUMFONT = ("Verdana", 25)
@@ -29,8 +31,8 @@ class StartPage(tk.Frame):
         self.connected.set(self.controller.connect())
 
     def build_layout(self, controller):
-        label = ttk.Label(self, text="OBD performance", font=LARGEFONT)
-        label.grid(row=0, column=0, columnspan=5, padx=10, pady=10)
+        self.logo_image = tk.PhotoImage(file='assets/header.png')
+        ttk.Label(self, image=self.logo_image).grid(row=0, column=0, columnspan=5, padx=10, pady=10)
 
         self.parameters_image = tk.PhotoImage(file='assets/parameters.png')
         self.tests_image = tk.PhotoImage(file='assets/tests.png')
