@@ -18,7 +18,7 @@ class Tests(tk.Frame):
         self.user_tests_image = tk.PhotoImage(file='assets/user_tests.png')
         self.compare_tests_image = tk.PhotoImage(file='assets/compare_test.png')
 
-        label = ttk.Label(self, image=self.tests_image).grid(row=1, column=1, columnspan=3, padx=10, pady=10)
+        ttk.Label(self, image=self.tests_image).grid(row=1, column=1, columnspan=3, padx=10, pady=10)
 
         button2 = ttk.Button(self, text="Atgal",
                              command=lambda: controller.show_frame(StartPage.StartPage))

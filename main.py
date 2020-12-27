@@ -78,7 +78,7 @@ class Application(tk.Tk):
 
     def show_user_tests(self, cont):
         frame = self.frames[cont]
-        frame.tkraise()
+        self.show_frame(cont)
         frame.start(self.user_id)
 
     def show_login(self, cont):

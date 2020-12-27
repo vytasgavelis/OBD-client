@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 import StartPage
+import Tests
 from TestModel import TestModel
 import TestsComparison
 import requests
@@ -19,12 +20,15 @@ class UserTests(tk.Frame):
         self.user_tests_box = ttk.Combobox(self)
         self.other_user_tests_box = ttk.Combobox(self)
 
-        label = ttk.Label(self, text="Jusu testai", font=LARGEFONT)
-        label.grid(row=0, column=4, padx=10, pady=10)
+        self.configure(bg="#ECECEC")
 
-        button2 = ttk.Button(self, text="Pradinis",
-                             command=lambda: controller.show_frame(StartPage.StartPage))
-        button2.grid(row=2, column=1, padx=10, pady=10)
+        self.tests_image = tk.PhotoImage(file='assets/tests.png')
+        label = ttk.Label(self, image=self.tests_image)
+        label.grid(row=1, column=1, columnspan=3, padx=10, pady=10)
+
+        button2 = ttk.Button(self, text="Atgal",
+                             command=lambda: controller.show_frame(Tests.Tests))
+        button2.grid(row=2, column=2, padx=10, pady=10)
 
     def get_user_tests(self, user_id):
         r = requests.get('http://localhost:8080/OBD-server/api.php?action=get_tests&user_id=' + str(user_id)).json()
@@ -103,4 +107,4 @@ class UserTests(tk.Frame):
         self.other_user_tests_box.grid(row=3, column=3, padx=10, pady=10)
 
         ttk.Button(self, text="Lyginti",
-                   command=lambda: self.on_compare_button_click()).grid(row=3, column=2, padx=10, pady=10)
+                   command=lambda: self.on_compare_button_click()).grid(row=4, column=2, padx=10, pady=10)
