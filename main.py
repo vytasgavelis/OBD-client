@@ -89,7 +89,7 @@ class Application(tk.Tk):
 
     def show_settings(self, cont):
         frame = self.frames[cont]
-        frame.tkraise()
+        self.show_frame(cont)
         frame.start(self.user_id)
 
     def login(self, username, user_id):

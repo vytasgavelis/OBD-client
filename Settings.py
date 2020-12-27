@@ -15,10 +15,11 @@ class Settings(tk.Frame):
         self.settings = None
         self.controller = controller
 
-        label = ttk.Label(self, text="Nustatymai", font=LARGEFONT)
-        label.grid(row=0, column=4, padx=10, pady=10)
+        self.configure(bg="#ECECEC")
+        self.settings_image = tk.PhotoImage(file='assets/settings.png')
+        label = ttk.Label(self, image=self.settings_image).grid(row=1, column=1, padx=10, pady=10)
 
-        button2 = ttk.Button(self, text="Pradinis",
+        button2 = ttk.Button(self, text="Atgal",
                              command=lambda: controller.show_frame(StartPage.StartPage))
         button2.grid(row=2, column=1, padx=10, pady=10)
 
@@ -35,7 +36,7 @@ class Settings(tk.Frame):
             self.can_compare_tests = tk.BooleanVar(value=r['settings']['can_compare_tests'])
             can_compare_tests_check = ttk.Checkbutton(self, text='Naudoti jusu testus palyginimui',
                                     variable=self.can_compare_tests,
-                                    onvalue=True, offvalue=False).grid(row = 3, column=1)
+                                    onvalue=True, offvalue=False).grid(row=3, column=1)
 
             ttk.Button(self, text="Issaugoti",
                        command=lambda: self.on_save_button_click()).grid(row=4, column=1)
