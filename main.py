@@ -111,7 +111,7 @@ class Application(tk.Tk):
 
     def update_user_buttons_state(self, state):
         frame = self.frames[Tests]
-        frame.user_tests_button['state'] = state
+        frame.compare_tests_button['state'] = state
         self.frames[StartPage].settings_button['state'] = state
         self.frames[StartPage].profile_button['state'] = state
 
