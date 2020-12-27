@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 import StartPage
 import SpeedTest
+import TestsPickingForComparison
 import UserTests
 
 LARGEFONT = ("Verdana", 35)
@@ -34,11 +35,12 @@ class Tests(tk.Frame):
         self.speed_test1_button.grid(row=4, column=1, padx=10, pady=10)
         self.speed_test1_button['state'] = tk.DISABLED
 
-        self.user_tests_button = tk.Button(self, image=self.user_tests_image)
+        self.user_tests_button = tk.Button(self, image=self.user_tests_image,
+                                           command=lambda: controller.show_user_tests(UserTests.UserTests))
         self.user_tests_button['state'] = tk.DISABLED
         self.user_tests_button.grid(row=3, column=3, padx=10, pady=10)
 
         self.compare_tests_button = tk.Button(self, image=self.compare_tests_image,
-                             command=lambda: controller.show_user_tests(UserTests.UserTests))
+                                              command=lambda: controller.show_user_tests(TestsPickingForComparison.TestsPickingForComparison))
         self.compare_tests_button['state'] = tk.DISABLED
         self.compare_tests_button.grid(row=4, column=3, padx=10, pady=10)

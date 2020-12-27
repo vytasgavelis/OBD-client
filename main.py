@@ -11,10 +11,11 @@ from Graph import Graph
 from Login import Login
 from Register import Register
 from SpeedTest import SpeedTest
-from UserTests import UserTests
+from TestsPickingForComparison import TestsPickingForComparison
 from TestsComparison import TestsComparison
+from UserTests import UserTests
+from TestOverview import TestOverview
 from tkinter import messagebox
-
 
 LARGEFONT = ("Verdana", 35)
 
@@ -38,7 +39,7 @@ class Application(tk.Tk):
 
         self.frames = {}
 
-        for F in (StartPage, Parameters, Tests, Profile, Settings, Gauge, Graph, Login, SpeedTest, UserTests, TestsComparison, Register):
+        for F in (StartPage, Parameters, Tests, Profile, Settings, Gauge, Graph, Login, SpeedTest, TestsPickingForComparison, TestsComparison, Register, UserTests, TestOverview):
             frame = F(container, self)
             self.frames[F] = frame
 
@@ -92,6 +93,10 @@ class Application(tk.Tk):
         self.show_frame(cont)
         frame.start(self.user_id)
 
+    def show_test(self, cont, test):
+        self.show_frame(cont)
+        self.frames[cont].start(test)
+
     def login(self, username, user_id):
         self.logged_in.set(True)
         self.username.set(username)
@@ -114,6 +119,7 @@ class Application(tk.Tk):
         frame.compare_tests_button['state'] = state
         self.frames[StartPage].settings_button['state'] = state
         self.frames[StartPage].profile_button['state'] = state
+        self.frames[Tests].user_tests_button['state'] = state
 
     def update_car_parameters_buttons_state(self, state):
         frame = self.frames[StartPage]

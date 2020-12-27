@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
-import UserTests
+import TestsPickingForComparison
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
@@ -17,7 +17,7 @@ class TestsComparison(tk.Frame):
         label.grid(row=1, column=1, columnspan=3, padx=10, pady=10)
 
         button2 = ttk.Button(self, text="Atgal",
-                             command=lambda: controller.show_user_tests(UserTests.UserTests))
+                             command=lambda: controller.show_user_tests(TestsPickingForComparison.TestsPickingForComparison))
         button2.grid(row=2, column=2, padx=10, pady=10)
 
     def start(self, current_user_test, other_user_test):
