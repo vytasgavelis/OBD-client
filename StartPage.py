@@ -32,21 +32,26 @@ class StartPage(tk.Frame):
         label = ttk.Label(self, text="OBD performance", font=LARGEFONT)
         label.grid(row=0, column=0, columnspan=5, padx=10, pady=10)
 
-        self.parameters_button = ttk.Button(self, text="Parametrai", width=20,
+        self.parameters_image = tk.PhotoImage(file='assets/parameters.png')
+        self.tests_image = tk.PhotoImage(file='assets/tests.png')
+        self.profile_image = tk.PhotoImage(file='assets/profile.png')
+        self.settings_image = tk.PhotoImage(file='assets/settings.png')
+
+        self.parameters_button = tk.Button(self, image=self.parameters_image,
                                        command=lambda: controller.show_frame(Parameters))
         self.parameters_button.grid(row=1, column=0, columnspan=2, padx=10, pady=10)
         self.parameters_button['state'] = tk.DISABLED
 
-        tests_button = ttk.Button(self, text="Testai", width=20,
+        tests_button = tk.Button(self, image=self.tests_image,
                                   command=lambda: controller.show_frame(Tests))
         tests_button.grid(row=1, column=3, columnspan=2, padx=10, pady=10)
 
-        self.profile_button = ttk.Button(self, text="Profilis", width=20,
+        self.profile_button = tk.Button(self, image=self.profile_image,
                                     command=lambda: controller.show_frame(Profile))
         self.profile_button.grid(row=2, column=0, columnspan=2, padx=10, pady=10)
         self.profile_button['state'] = tk.DISABLED
 
-        self.settings_button = ttk.Button(self, text="Nustatymai", width=20,
+        self.settings_button = tk.Button(self, image=self.settings_image,
                                      command=lambda: controller.show_settings(Settings))
         self.settings_button.grid(row=2, column=3, columnspan=2, padx=10, pady=10)
         self.settings_button['state'] = tk.DISABLED
