@@ -6,19 +6,25 @@ import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 LARGEFONT = ("Verdana", 35)
+MEDIUMFONT = ("Verdana", 25)
 
 class Graph(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
+
+        self.configure(bg="#ECECEC")
+
         self.connection = None
         self.data = []
         self.canvas = None
         self.title = ''
         self.unit = ''
 
+        ttk.Label(self, text="OBD performance", font=LARGEFONT).grid(row=0, column=0)
+
         button2 = ttk.Button(self, text="Parametrai",
                              command=lambda: self.go_to_parameter_frame(controller))
-        button2.grid(row=2, column=1, padx=10, pady=10)
+        button2.grid(row=1, column=0, pady=10)
 
     def draw_graph(self):
         try:
@@ -26,11 +32,12 @@ class Graph(tk.Frame):
         except AttributeError:
             pass
         figure = plt.Figure(figsize=(5, 4))
+        figure.patch.set_facecolor('#ECECEC')
         ax = figure.add_subplot(111)
         ax.plot(self.data)
 
         self.canvas = FigureCanvasTkAgg(figure, self)
-        self.canvas.get_tk_widget().grid(row=3, column=1)
+        self.canvas.get_tk_widget().grid(row=2, column=0)
         ax.set_title(self.title + ' ' + self.unit)
 
     def process_response(self, response):
