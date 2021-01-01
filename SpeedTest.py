@@ -30,7 +30,7 @@ class SpeedTest(tk.Frame):
         self.speed_data = []
         self.intake_data = []
 
-        self.target_speed = 200
+        self.target_speed = 100
         self.test_text = tk.StringVar(value='Pradeti')
 
         self.test_image = tk.PhotoImage(file='assets/test.png')
@@ -93,7 +93,7 @@ class SpeedTest(tk.Frame):
         self.elapsed_time.set(0)
         self.speed.set(0)
 
-    def start(self, connection, parameter):
+    def start(self, connection, parameter, target_speed):
         command = None
         if parameter == 'SPEED':
             command = obd.commands.SPEED
@@ -108,6 +108,7 @@ class SpeedTest(tk.Frame):
         if parameter == 'INTAKE_TEMP':
             command = obd.commands.INTAKE_TEMP
 
+        self.target_speed = target_speed
         self.draw_graph()
         self.connection = connection
         self.connection.watch(command, callback=self.process_speed_response)
@@ -137,7 +138,7 @@ class SpeedTest(tk.Frame):
             should_save = messagebox.askyesno(title='Issaugoti', message='Ar norite issaugoti testa?', icon='question')
             if should_save:
                 data = json.dumps({
-                    'type': '0-100',
+                    'type': '0-' + str(self.target_speed),
                     'target_speed': self.target_speed,
                     'time': self.elapsed_time.get(),
                     'speed_data': self.speed_data,
@@ -148,7 +149,8 @@ class SpeedTest(tk.Frame):
                     'http://localhost:8080/OBD-server/api.php?action=upload_speed_test',
                     {
                         'user_id': self.controller.user_id,
-                        'speed_test_data': data
+                        'speed_test_data': data,
+                        'speed_test_type': '0-' + str(self.target_speed)
                     }
                 ).json()
 

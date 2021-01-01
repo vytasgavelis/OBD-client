@@ -49,7 +49,7 @@ class Application(tk.Tk):
         container.grid_columnconfigure(0, weight=1)
 
     def connect(self):
-        self.connection = obd.Async('/dev/ttys003')
+        self.connection = obd.Async('/dev/ttys006')
         connected = self.connection.status() == OBDStatus.CAR_CONNECTED
         if connected:
             self.update_car_parameters_buttons_state(tk.NORMAL)
@@ -76,6 +76,10 @@ class Application(tk.Tk):
         frame = self.frames[cont]
         self.show_frame(cont)
         frame.start(test1, test2)
+
+    def show_speed_test(self, cont, parameter, target_speed):
+        self.show_frame(cont)
+        self.frames[cont].start(self.connection, parameter, target_speed)
 
     def show_user_tests(self, cont):
         frame = self.frames[cont]

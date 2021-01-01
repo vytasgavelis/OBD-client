@@ -25,15 +25,15 @@ class Tests(tk.Frame):
                              command=lambda: controller.show_frame(StartPage.StartPage))
         button2.grid(row=2, column=2, padx=10, pady=10)
 
-        self.speed_test2_button = tk.Button(self, image=self.test1_image,
-                                             command=lambda: controller.show_parameter(SpeedTest.SpeedTest, 'SPEED'))
-        self.speed_test2_button.grid(row=3, column=1, padx=10, pady=10)
-        self.speed_test2_button['state'] = tk.DISABLED
-
-        self.speed_test1_button = tk.Button(self, image=self.test2_image,
-                             command=lambda: controller.show_parameter(SpeedTest.SpeedTest, 'SPEED'))
-        self.speed_test1_button.grid(row=4, column=1, padx=10, pady=10)
+        self.speed_test1_button = tk.Button(self, image=self.test1_image,
+                                             command=lambda: controller.show_speed_test(SpeedTest.SpeedTest, 'SPEED', 60))
+        self.speed_test1_button.grid(row=3, column=1, padx=10, pady=10)
         self.speed_test1_button['state'] = tk.DISABLED
+
+        self.speed_test2_button = tk.Button(self, image=self.test2_image,
+                             command=lambda: controller.show_speed_test(SpeedTest.SpeedTest, 'SPEED', 100))
+        self.speed_test2_button.grid(row=4, column=1, padx=10, pady=10)
+        self.speed_test2_button['state'] = tk.DISABLED
 
         self.user_tests_button = tk.Button(self, image=self.user_tests_image,
                                            command=lambda: controller.show_user_tests(UserTests.UserTests))
