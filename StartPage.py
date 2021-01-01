@@ -49,7 +49,7 @@ class StartPage(tk.Frame):
         tests_button.grid(row=1, column=3, columnspan=2, padx=10, pady=10)
 
         self.profile_button = tk.Button(self, image=self.profile_image,
-                                    command=lambda: controller.show_frame(Profile))
+                                    command=lambda: controller.show_profile(Profile))
         self.profile_button.grid(row=2, column=0, columnspan=2, padx=10, pady=10)
         self.profile_button['state'] = tk.DISABLED
 

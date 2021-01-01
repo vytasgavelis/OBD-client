@@ -77,6 +77,10 @@ class Application(tk.Tk):
         self.show_frame(cont)
         frame.start(test1, test2)
 
+    def show_profile(self, cont):
+        self.show_frame(cont)
+        self.frames[cont].start(self.user_id)
+
     def show_speed_test(self, cont, parameter, target_speed):
         self.show_frame(cont)
         self.frames[cont].start(self.connection, parameter, target_speed)

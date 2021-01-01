@@ -30,7 +30,7 @@ class Login(tk.Frame):
         ttk.Entry(self, textvariable=self.email).grid(row=4, column=0, padx=10, pady=10)
         ttk.Label(self, text='Slaptazodis:').grid(row=5, column=0, padx=5, pady=5)
         ttk.Entry(self, textvariable=self.password, show="*").grid(row=6, column=0, padx=10, pady=10)
-        tk.Button(self, text='Prisijungti', command=self.submit_form).grid(row=7, column=0, padx=10, pady=10)
+        ttk.Button(self, text='Prisijungti', command=self.submit_form).grid(row=7, column=0, padx=10, pady=10)
 
     def submit_form(self):
         if self.email != '' and self.password != '':
