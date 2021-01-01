@@ -75,5 +75,5 @@ class UserTests(tk.Frame):
         return None
 
     def on_show_button_click(self):
-        test = self.get_test_by_id(self.tests, self.tests_box.get()[1])
+        test = self.get_test_by_id(self.tests, self.tests_box.get().split(' ')[0][1:])
         self.controller.show_test(TestOverview.TestOverview, test)
