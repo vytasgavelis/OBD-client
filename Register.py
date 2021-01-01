@@ -41,17 +41,22 @@ class Register(tk.Frame):
             self.email.set('')
             self.password.set('')
 
-            r = requests.post(
-                'http://localhost:8080/OBD-server/api.php?action=register',
-                {
-                    'email': email,
-                    'password': password
-                }
-            ).json()
+            try:
+                r = requests.post(
+                    'http://localhost:8080/OBD-server/api.php?action=register',
+                    {
+                        'email': email,
+                        'password': password
+                    },
+                    timeout=3
+                ).json()
 
-            if r['success']:
-                self.controller.login(email, r['user_id'])
-                self.controller.show_frame(StartPage.StartPage)
-            else:
-                messagebox.showerror('Klaida', str.join('\n', r['errors']))
+                if r['success']:
+                    self.controller.login(email, r['user_id'])
+                    self.controller.show_frame(StartPage.StartPage)
+                else:
+                    messagebox.showerror('Klaida', str.join('\n', r['errors']))
+
+            except requests.exceptions.RequestException:
+                messagebox.showerror('Klaida', 'Tinklo klaida')
 

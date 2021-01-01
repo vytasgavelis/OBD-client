@@ -6,6 +6,7 @@ from TestModel import TestModel
 import TestsComparison
 import requests
 import json
+from tkinter import messagebox
 
 LARGEFONT = ("Verdana", 35)
 
@@ -50,21 +51,28 @@ class TestsPickingForComparison(tk.Frame):
         return tests
 
     def get_all_tests(self):
-        r = requests.get('http://localhost:8080/OBD-server/api.php?action=get_tests').json()
         tests = []
+        try:
+            r = requests.get(
+                'http://localhost:8080/OBD-server/api.php?action=get_tests',
+                timeout=3
+            ).json()
 
-        if r['success']:
-            for test in r['speed_tests']:
-                data = json.loads(test['test_data'])
-                tests.append(TestModel(
-                    test_id=int(test['test_id']),
-                    test_type=data['type'],
-                    target_speed=data['target_speed'],
-                    time=data['time'],
-                    speed_data=data['speed_data'],
-                    maf_data=data['maf_data'],
-                    intake_data=data['intake_data']
-                ))
+            if r['success']:
+                for test in r['speed_tests']:
+                    data = json.loads(test['test_data'])
+                    tests.append(TestModel(
+                        test_id=int(test['test_id']),
+                        test_type=data['type'],
+                        target_speed=data['target_speed'],
+                        time=data['time'],
+                        speed_data=data['speed_data'],
+                        maf_data=data['maf_data'],
+                        intake_data=data['intake_data']
+                    ))
+
+        except requests.exceptions.RequestException:
+            messagebox.showerror('Klaida', 'Tinklo klaida')
 
         return tests
 

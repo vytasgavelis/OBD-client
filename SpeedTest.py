@@ -145,19 +145,23 @@ class SpeedTest(tk.Frame):
                     'maf_data': self.maf_data,
                     'intake_data': self.intake_data
                 })
-                r = requests.post(
-                    'http://localhost:8080/OBD-server/api.php?action=upload_speed_test',
-                    {
-                        'user_id': self.controller.user_id,
-                        'speed_test_data': data,
-                        'speed_test_type': '0-' + str(self.target_speed)
-                    }
-                ).json()
+                try:
+                    r = requests.post(
+                        'http://localhost:8080/OBD-server/api.php?action=upload_speed_test',
+                        {
+                            'user_id': self.controller.user_id,
+                            'speed_test_data': data,
+                            'speed_test_type': '0-' + str(self.target_speed)
+                        }
+                    ).json()
 
-                if r['success']:
-                    messagebox._show('Issaugota', 'Testas sekmingai issaugotas.')
-                else:
-                    messagebox.showerror('Klaida', 'Nepavyko issaugoti testo.')
+                    if r['success']:
+                        messagebox._show('Issaugota', 'Testas sekmingai issaugotas.')
+                    else:
+                        messagebox.showerror('Klaida', 'Nepavyko issaugoti testo.')
+
+                except requests.exceptions.RequestException:
+                    messagebox.showerror('Klaida', 'Tinklo klaida')
 
 
     def go_to_tests_frame(self, controller):
