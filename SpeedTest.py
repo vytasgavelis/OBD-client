@@ -9,6 +9,7 @@ import requests
 import tk_tools
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from tkinter import messagebox
 
 LARGEFONT = ("Verdana", 35)
 
@@ -29,6 +30,7 @@ class SpeedTest(tk.Frame):
         self.maf_data = []
         self.speed_data = []
         self.intake_data = []
+        self.current_speed = 0
 
         self.target_speed = 100
         self.test_text = tk.StringVar(value='Pradeti')
@@ -55,6 +57,7 @@ class SpeedTest(tk.Frame):
         speed = float(format(float(str(response.value).split()[0]), '.2f'))
         self.speed_label.set('Greitis: ' + str(speed) + 'km/h')
         self.rs.set_value(speed)
+        self.current_speed = speed
 
         if self.started:
             self.elapsed_time.set(format(time.time() - self.start_time, '.2f'))
@@ -78,7 +81,10 @@ class SpeedTest(tk.Frame):
 
     def on_test_button_click(self):
         if not self.started:
-            self.start_test()
+            if self.current_speed <= 50:
+                self.start_test()
+            else:
+                messagebox.showerror('Klaida', 'Testas gali būti pradedamas tik iš stovimos pozicijos.')
         else:
             self.stop_test()
 
@@ -142,7 +148,9 @@ class SpeedTest(tk.Frame):
         self.canvas.get_tk_widget().grid(row=6, column=1)
 
     def show_save_dialog(self):
-        if self.controller.is_logged_in():
+        if not self.controller.is_logged_in():
+            messagebox.showinfo('Pabaiga', 'Testas pabaigtas. Norint jį išsaugoti turite prisijungti.')
+        else:
             should_save = messagebox.askyesno(title='Issaugoti', message='Ar norite issaugoti testa?', icon='question')
             if should_save:
                 data = json.dumps({
