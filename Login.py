@@ -17,7 +17,8 @@ class Login(tk.Frame):
         self.email = tk.StringVar()
         self.password = tk.StringVar()
 
-        ttk.Label(self, text="OBD performance", font=LARGEFONT).grid(row=0, column=0, padx=10, pady=10)
+        self.logo_image = tk.PhotoImage(file='assets/header.png')
+        ttk.Label(self, image=self.logo_image).grid(row=0, column=0, padx=10, pady=10)
 
         label = ttk.Label(self, text="Prisijungimas", font=MEDIUMFONT)
         label.grid(row=1, column=0, padx=10, pady=10)
