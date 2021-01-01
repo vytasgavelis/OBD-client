@@ -44,15 +44,22 @@ class SpeedTest(tk.Frame):
                    command=lambda: self.on_test_button_click()).grid(row=3, column=2)
 
         ttk.Label(self, textvariable=self.elapsed_time_label).grid(row=4, column=2)
-        ttk.Label(self, textvariable=self.speed_label).grid(row=5, column=2)
+
+    def draw_gauge(self, max_value, label, unit, target_speed):
+        target_speed_percentage = target_speed * 100 / 200
+        self.rs = tk_tools.Gauge(self, max_value=max_value, label=label, unit=unit, width=400, height=300, bg="#ECECEC", yellow=target_speed_percentage, red=100)
+        self.rs.grid(row=6, column=3)
+        self.rs.set_value(0)
 
     def process_speed_response(self, response):
+        speed = float(format(float(str(response.value).split()[0]), '.2f'))
+        self.speed_label.set('Greitis: ' + str(speed) + 'km/h')
+        self.rs.set_value(speed)
+
         if self.started:
             self.elapsed_time.set(format(time.time() - self.start_time, '.2f'))
             self.elapsed_time_label.set('Laikas: ' + format(time.time() - self.start_time, '.2f') + 's')
-            speed = float(format(float(str(response.value).split()[0]), '.2f'))
             self.speed.set(speed)
-            self.speed_label.set('Greitis: ' + str(speed) + 'km/h')
             self.speed_data.append(speed)
             if speed >= self.target_speed:
                 self.started = False
@@ -109,6 +116,7 @@ class SpeedTest(tk.Frame):
             command = obd.commands.INTAKE_TEMP
 
         self.target_speed = target_speed
+        self.draw_gauge(200, 'Greitis', 'km/h', target_speed)
         self.draw_graph()
         self.connection = connection
         self.connection.watch(command, callback=self.process_speed_response)
@@ -131,7 +139,7 @@ class SpeedTest(tk.Frame):
         ax.legend(title='Parametrai:', loc='upper left', fontsize='x-small')
 
         self.canvas = FigureCanvasTkAgg(figure, self)
-        self.canvas.get_tk_widget().grid(row=6, column=2)
+        self.canvas.get_tk_widget().grid(row=6, column=1)
 
     def show_save_dialog(self):
         if self.controller.is_logged_in():
