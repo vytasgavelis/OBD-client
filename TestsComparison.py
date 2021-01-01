@@ -34,6 +34,7 @@ class TestsComparison(tk.Frame):
         canvas = FigureCanvasTkAgg(figure, self)
         canvas.get_tk_widget().grid(row=3, column=1)
         ttk.Label(self, text='Laikas: ' + format(float(current_user_test.time), '.2f') + 's').grid(row=4, column=1)
+        ttk.Label(self, text='Greitis: ' + str(current_user_test.target_speed) + 'km/h').grid(row=5, column=1)
 
         figure2 = plt.Figure(figsize=(5, 4))
         figure2.patch.set_facecolor('#ECECEC')
@@ -48,5 +49,6 @@ class TestsComparison(tk.Frame):
         canvas2 = FigureCanvasTkAgg(figure2, self)
         canvas2.get_tk_widget().grid(row=3, column=3)
         ttk.Label(self, text='Laikas: ' + format(float(other_user_test.time), '.2f') + 's').grid(row=4, column=3)
+        ttk.Label(self, text='Greitis: ' + str(other_user_test.target_speed) + 'km/h').grid(row=5, column=3)
 
 

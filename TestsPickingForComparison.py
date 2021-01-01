@@ -83,8 +83,10 @@ class TestsPickingForComparison(tk.Frame):
         return None
 
     def on_compare_button_click(self):
-        user_test = self.get_test_by_id(self.current_user_tests, self.user_tests_box.get()[1])
-        other_user_test = self.get_test_by_id(self.other_user_tests, self.other_user_tests_box.get()[1])
+        test1_id = self.user_tests_box.get().split(' ')[0][1:]
+        test2_id = self.other_user_tests_box.get().split(' ')[0][1:]
+        user_test = self.get_test_by_id(self.current_user_tests, test1_id)
+        other_user_test = self.get_test_by_id(self.other_user_tests, test2_id)
         self.controller.show_tests_comparison(TestsComparison.TestsComparison, user_test, other_user_test)
 
     def draw_tests_boxes(self, current_user_tests, other_user_tests):
