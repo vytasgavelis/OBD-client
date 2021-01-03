@@ -14,8 +14,9 @@ class Gauge(tk.Frame):
         self.connection = None
 
         self.configure(bg="#ECECEC")
-        label = ttk.Label(self, text="OBD performance", font=LARGEFONT)
-        label.grid(row=0, column=0)
+
+        self.logo_image = tk.PhotoImage(file='assets/header.png')
+        ttk.Label(self, image=self.logo_image).grid(row=0, column=0, padx=10, pady=10)
 
         button2 = ttk.Button(self, text="Parametrai",
                              command=lambda: self.go_to_parameter_frame(controller))
